@@ -1,5 +1,4 @@
 # 心知天气API测试
-可自行打包
 ![weather](https://github.com/user-attachments/assets/7875bd5c-755e-42bc-a933-db76ac080fa0)
 ## 2024-9-10  
 完成对于基础界面与基本逻辑的设计(错误信息会导致BUG,逻辑还没写)
