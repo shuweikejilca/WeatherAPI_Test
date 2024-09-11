@@ -1,5 +1,5 @@
 # 心知天气API测试
-可自行打包为exe文件
+可自行打包
 ![weather](https://github.com/user-attachments/assets/aab9a703-cd1f-4c7a-a31f-02759d59b4e4)
 
 ## 2024-9-10  
