@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMessageBox
 import requests
 
 class Ui_Form(object):
@@ -73,6 +74,11 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.pushButton)
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
+        self.msg_box = QMessageBox()
+        self.msg_box.setIcon(QMessageBox.Information)
+        self.msg_box.setText('密钥或者地址输入有误,请重新输入')
+        self.msg_box.setWindowTitle('提示')
+
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -85,16 +91,20 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", "位置:"))
         self.textEdit_2.setPlaceholderText(_translate("Form", "请输入你要查看天气的位置(中文或者拼音)"))
         self.pushButton.setText(_translate("Form", "测试"))
+        self.textBrowser.setText("心知天气官方网址为: https://www.seniverse.com/")
     def get_key_location_text(self):
         key  = self.textEdit.toPlainText()
         location = self.textEdit_2.toPlainText()
         url = "https://api.seniverse.com/v3/weather/now.json?key=" + key + "&location=" + location + "&language=zh-Hans&unit=c"
         response = requests.get(url)
-        data = response.json()["results"]
-        temperature = data[0]["now"]["temperature"]  # 温度
-        text = data[0]['now']["text"]
-        address = data[0]["location"]['path']
-        self.textBrowser.setText("地址为: "+address+"|||"+"天气状况为: "+text+","+"温度为: "+temperature+"℃"+"\n")
+        if response.status_code == 200:
+            data = response.json()["results"]
+            temperature = data[0]["now"]["temperature"]  # 温度
+            text = data[0]['now']["text"]
+            address = data[0]["location"]['path']
+            self.textBrowser.setText("地址为: "+address+"|||"+"天气状况为: "+text+","+"温度为: "+temperature+"℃"+"\n")
+        else:
+            self.msg_box.exec_()
 
 if __name__ == "__main__":
     import sys
